@@ -2,6 +2,7 @@ package com.example.newsend;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -21,42 +22,24 @@ import java.net.Socket;
 @SuppressLint("SetTextI18n")
 public class MainActivity extends AppCompatActivity {
     Thread Thread1 = null;
-    EditText etIP, etPort;
     TextView tvMessages;
-    EditText etMessage;
-    Button btnSend;
     String SERVER_IP = "192.168.1.89";
     int SERVER_PORT = 5557;
-
+    int noOfSecond = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        etIP = findViewById(R.id.etIP);
-        etPort = findViewById(R.id.etPort);
         tvMessages = findViewById(R.id.tvMessages);
-        etMessage = findViewById(R.id.etMessage);
-        btnSend = findViewById(R.id.btnSend);
-        Button btnConnect = findViewById(R.id.btnConnect);
-        btnConnect.setOnClickListener(new View.OnClickListener() {
+        Thread1 = new Thread(new Thread1());
+        Thread1.start();
+
+        new Handler().postDelayed(new Runnable() {
             @Override
-            public void onClick(View v) {
-                tvMessages.setText("");
-                SERVER_IP = etIP.getText().toString().trim();
-                SERVER_PORT = Integer.parseInt(etPort.getText().toString().trim());
-                Thread1 = new Thread(new Thread1());
-                Thread1.start();
+            public void run() {
+                new Thread(new Thread3()).start();
             }
-        });
-        btnSend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String message = etMessage.getText().toString().trim();
-                if (!message.isEmpty()) {
-                    new Thread(new Thread3(message)).start();
-                }
-            }
-        });
+        },noOfSecond * 1000);
     }
 
     private PrintWriter output;
@@ -97,14 +80,14 @@ public class MainActivity extends AppCompatActivity {
                     try {
                         JSONObject jsonObject = new JSONObject(dataString);
                         final String count = jsonObject.getString("counter");
-                        final String  queue= jsonObject.getString("qnum");
+                        final String queue = jsonObject.getString("qnum");
 
                         if (dataString != null) {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
 
-                                    tvMessages.append("server: " + "Counter -> " + count + ",  qnum -> " + queue +"\n");
+                                    tvMessages.append("server: " + "Counter -> " + count + ",  qnum -> " + queue + "\n");
                                 }
                             });
                         } else {
@@ -124,23 +107,22 @@ public class MainActivity extends AppCompatActivity {
 
 
     class Thread3 implements Runnable {
-        private String message;
-
-        Thread3(String message) {
-            this.message = message;
-        }
-
         @Override
         public void run() {
-            output.write(message);
-            output.flush();
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    tvMessages.append("client: " + message + "\n");
-                    etMessage.setText("");
-                }
-            });
+            try {
+                final String message = "[{\"type\":\"monitor\"}]";
+                output.write(message);
+                output.flush();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        tvMessages.append("client: " + message + "\n");
+                    }
+                });
+                new Thread(new Thread2()).start();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 }
