@@ -2,6 +2,7 @@ package com.example.newsend;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -18,19 +19,35 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.Queue;
 
 @SuppressLint("SetTextI18n")
 public class MainActivity extends AppCompatActivity {
     Thread Thread1 = null;
-    TextView tvMessages;
-    String SERVER_IP = "192.168.1.89";
+    TextView tvMessagesq;
+    TextView tvMessages1;
+    TextView tvMessages2;
+    TextView tvMessages3;
+    TextView tvMessages4;
+    TextView tvMessages5;
+    String SERVER_IP = "192.168.1.59";
     int SERVER_PORT = 5557;
     int noOfSecond = 1;
+    String[] CountArray = new String[6];
+    String[] QueArray = new String[6];
+    int i = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        tvMessages = findViewById(R.id.tvMessages);
+        tvMessagesq = findViewById(R.id.tvMessagesq);
+        tvMessages1 = findViewById(R.id.tvMessages1);
+        tvMessages2 = findViewById(R.id.tvMessages2);
+        tvMessages3 = findViewById(R.id.tvMessages3);
+        tvMessages4 = findViewById(R.id.tvMessages4);
+        tvMessages5 = findViewById(R.id.tvMessages5);
         Thread1 = new Thread(new Thread1());
         Thread1.start();
 
@@ -55,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        tvMessages.setText("Connected\n");
+                        tvMessagesq.setText("");
                     }
                 });
                 new Thread(new Thread2()).start();
@@ -73,21 +90,49 @@ public class MainActivity extends AppCompatActivity {
                     final String message = input.readLine();
                     String dataString = message.substring(11, message.length() - 5);
 
-                    //JSONObject result = new JSONObject(dataString);
-                    //String counterNum= result.getString("counter");
-
-                    //Log.d("Result: ", counterNum);
                     try {
                         JSONObject jsonObject = new JSONObject(dataString);
                         final String count = jsonObject.getString("counter");
                         final String queue = jsonObject.getString("qnum");
-
                         if (dataString != null) {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
 
-                                    tvMessages.append("server: " + "Counter -> " + count + ",  qnum -> " + queue + "\n");
+                                        CountArray[i] = count;
+                                        QueArray[i] = queue;
+                                        //String monitor = QueArray[i].concat(CountArray[i]);
+                                        switch (i){
+                                            case 0:
+                                                tvMessagesq.setText("");
+                                                tvMessagesq.append(QueArray[0] + "                                 " + CountArray[0]);
+                                                break;
+                                            case 1:
+                                                tvMessages1.setText("");
+                                                tvMessages1.append(QueArray[1] + "                                 " + CountArray[1]);
+                                                break;
+                                            case 2:
+                                                tvMessages2.setText("");
+                                                tvMessages2.append(QueArray[2] + "                                 " + CountArray[2]);
+                                                break;
+                                            case 3:
+                                                tvMessages3.setText("");
+                                                tvMessages3.append(QueArray[3] + "                                 " + CountArray[3]);
+                                                break;
+                                            case 4:
+                                                tvMessages4.setText("");
+                                                tvMessages4.append(QueArray[4] + "                                 " + CountArray[4]);
+                                                break;
+                                            case 5:
+                                                tvMessages5.setText("");
+                                                tvMessages5.append(QueArray[5] + "                                 " + CountArray[5]);
+                                                break;
+                                        }
+                                        i++;
+                                        if (i == 6){
+                                            i -= 6;
+                                        }
+//                                        tvMessagesq.append(QueArray[0] + "               " + CountArray[0]);
                                 }
                             });
                         } else {
@@ -116,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        tvMessages.append("client: " + message + "\n");
+                        //tvMessagesq.append("client: " + message + "\n");
                     }
                 });
                 new Thread(new Thread2()).start();
