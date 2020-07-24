@@ -36,6 +36,9 @@ public class MainActivity extends AppCompatActivity {
     int noOfSecond = 1;
     String[] CountArray = new String[6];
     String[] QueArray = new String[6];
+    String a = "A";
+    String b = "B";
+    String c = "C";
     int i = 0;
 
     @Override
@@ -75,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
                         tvMessagesq.setText("");
                     }
                 });
-                new Thread(new Thread2()).start();
+                new Thread(new Thread2()).start();  //change thread type work A, B and C
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -94,15 +97,15 @@ public class MainActivity extends AppCompatActivity {
                         JSONObject jsonObject = new JSONObject(dataString);
                         final String count = jsonObject.getString("counter");
                         final String queue = jsonObject.getString("qnum");
+                        final String check = queue.substring(0,1);
                         if (dataString != null) {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-
+                                    if (check.equals(a)) {
                                         CountArray[i] = count;
                                         QueArray[i] = queue;
-                                        //String monitor = QueArray[i].concat(CountArray[i]);
-                                        switch (i){
+                                        switch (i) {
                                             case 0:
                                                 tvMessagesq.setText("");
                                                 tvMessagesq.append(QueArray[0] + "                                 " + CountArray[0]);
@@ -129,10 +132,11 @@ public class MainActivity extends AppCompatActivity {
                                                 break;
                                         }
                                         i++;
-                                        if (i == 6){
+                                        if (i == 6) {
                                             i -= 6;
                                         }
 //                                        tvMessagesq.append(QueArray[0] + "               " + CountArray[0]);
+                                    }
                                 }
                             });
                         } else {
@@ -150,8 +154,145 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
     class Thread3 implements Runnable {
+        @Override
+        public void run() {
+            while (true) {
+                try {
+                    final String message = input.readLine();
+                    String dataString = message.substring(11, message.length() - 5);
+
+                    try {
+                        JSONObject jsonObject = new JSONObject(dataString);
+                        final String count = jsonObject.getString("counter");
+                        final String queue = jsonObject.getString("qnum");
+                        final String check = queue.substring(0,1);
+                        if (dataString != null) {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (check.equals(b)) {
+                                        CountArray[i] = count;
+                                        QueArray[i] = queue;
+                                        switch (i) {
+                                            case 0:
+                                                tvMessagesq.setText("");
+                                                tvMessagesq.append(QueArray[0] + "                                 " + CountArray[0]);
+                                                break;
+                                            case 1:
+                                                tvMessages1.setText("");
+                                                tvMessages1.append(QueArray[1] + "                                 " + CountArray[1]);
+                                                break;
+                                            case 2:
+                                                tvMessages2.setText("");
+                                                tvMessages2.append(QueArray[2] + "                                 " + CountArray[2]);
+                                                break;
+                                            case 3:
+                                                tvMessages3.setText("");
+                                                tvMessages3.append(QueArray[3] + "                                 " + CountArray[3]);
+                                                break;
+                                            case 4:
+                                                tvMessages4.setText("");
+                                                tvMessages4.append(QueArray[4] + "                                 " + CountArray[4]);
+                                                break;
+                                            case 5:
+                                                tvMessages5.setText("");
+                                                tvMessages5.append(QueArray[5] + "                                 " + CountArray[5]);
+                                                break;
+                                        }
+                                        i++;
+                                        if (i == 6) {
+                                            i -= 6;
+                                        }
+//                                        tvMessagesq.append(QueArray[0] + "               " + CountArray[0]);
+                                    }
+                                }
+                            });
+                        } else {
+                            Thread1 = new Thread(new Thread1());
+                            Thread1.start();
+                            return;
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    class Thread4 implements Runnable {
+        @Override
+        public void run() {
+            while (true) {
+                try {
+                    final String message = input.readLine();
+                    String dataString = message.substring(11, message.length() - 5);
+
+                    try {
+                        JSONObject jsonObject = new JSONObject(dataString);
+                        final String count = jsonObject.getString("counter");
+                        final String queue = jsonObject.getString("qnum");
+                        final String check = queue.substring(0,1);
+                        if (dataString != null) {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (check.equals(c)) {
+                                        CountArray[i] = count;
+                                        QueArray[i] = queue;
+                                        switch (i) {
+                                            case 0:
+                                                tvMessagesq.setText("");
+                                                tvMessagesq.append(QueArray[0] + "                                 " + CountArray[0]);
+                                                break;
+                                            case 1:
+                                                tvMessages1.setText("");
+                                                tvMessages1.append(QueArray[1] + "                                 " + CountArray[1]);
+                                                break;
+                                            case 2:
+                                                tvMessages2.setText("");
+                                                tvMessages2.append(QueArray[2] + "                                 " + CountArray[2]);
+                                                break;
+                                            case 3:
+                                                tvMessages3.setText("");
+                                                tvMessages3.append(QueArray[3] + "                                 " + CountArray[3]);
+                                                break;
+                                            case 4:
+                                                tvMessages4.setText("");
+                                                tvMessages4.append(QueArray[4] + "                                 " + CountArray[4]);
+                                                break;
+                                            case 5:
+                                                tvMessages5.setText("");
+                                                tvMessages5.append(QueArray[5] + "                                 " + CountArray[5]);
+                                                break;
+                                        }
+                                        i++;
+                                        if (i == 6) {
+                                            i -= 6;
+                                        }
+//                                        tvMessagesq.append(QueArray[0] + "               " + CountArray[0]);
+                                    }
+                                }
+                            });
+                        } else {
+                            Thread1 = new Thread(new Thread1());
+                            Thread1.start();
+                            return;
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    class Thread5 implements Runnable {
         @Override
         public void run() {
             try {
