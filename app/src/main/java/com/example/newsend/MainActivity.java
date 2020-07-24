@@ -36,9 +36,9 @@ public class MainActivity extends AppCompatActivity {
     int noOfSecond = 1;
     String[] CountArray = new String[6];
     String[] QueArray = new String[6];
-    String a = "A";
-    String b = "B";
-    String c = "C";
+    String typeA = "A";
+    String typeB = "B";
+    String typeC = "C";
     int i = 0;
 
     @Override
@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
                         tvMessagesq.setText("");
                     }
                 });
-                new Thread(new Thread2()).start();  //change thread type work A, B and C
+                new Thread(new Thread2()).start();  /*change thread type work A, B and C*/
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    if (check.equals(a)) {
+                                    if (check.equals(typeA)) {
                                         CountArray[i] = count;
                                         QueArray[i] = queue;
                                         switch (i) {
@@ -171,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    if (check.equals(b)) {
+                                    if (check.equals(typeB)) {
                                         CountArray[i] = count;
                                         QueArray[i] = queue;
                                         switch (i) {
@@ -240,7 +240,7 @@ public class MainActivity extends AppCompatActivity {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    if (check.equals(c)) {
+                                    if (check.equals(typeC)) {
                                         CountArray[i] = count;
                                         QueArray[i] = queue;
                                         switch (i) {
