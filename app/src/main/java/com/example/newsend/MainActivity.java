@@ -1,14 +1,15 @@
 package com.example.newsend;
 
 import android.annotation.SuppressLint;
+import android.content.res.Resources;
+import android.media.AudioAttributes;
+import android.media.AudioManager;
+import android.media.SoundPool;
+import android.media.AudioManager
+import android.os.Build;
 import android.os.Bundle;
-
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import org.json.JSONException;
@@ -16,11 +17,11 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Queue;
+
 
 @SuppressLint("SetTextI18n")
 public class MainActivity extends AppCompatActivity {
@@ -40,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     String typeB = "B";
     String typeC = "C";
     int i = 0;
+    private SoundPool soundPool;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +55,8 @@ public class MainActivity extends AppCompatActivity {
         tvMessages5 = findViewById(R.id.tvMessages5);
         Thread1 = new Thread(new Thread1());
         Thread1.start();
+
+        String sound_path = "";
 
         new Handler().postDelayed(new Runnable() {
             @Override
